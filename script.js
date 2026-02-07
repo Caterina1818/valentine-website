@@ -1,51 +1,69 @@
-const STORAGE_KEY = "valentineName";
-
-const nameForm = document.getElementById("name-form");
-const nameInput = document.getElementById("name-input");
-const formError = document.getElementById("form-error");
-
-if (nameForm && nameInput && formError) {
-  nameForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const rawName = nameInput.value.trim();
-
-    if (!rawName) {
-      formError.textContent = "Per favore inserisci un nome.";
-      nameInput.focus();
-      return;
-    }
-
-    localStorage.setItem(STORAGE_KEY, rawName);
-    window.location.href = "anteprima.html";
-  });
-}
-
-const nameOutput = document.getElementById("name-output");
-const previewNote = document.getElementById("preview-note");
 const yesButton = document.getElementById("yes-button");
 const noButton = document.getElementById("no-button");
 const responseMessage = document.getElementById("response-message");
+const card = document.querySelector(".card");
 
-if (nameOutput && previewNote) {
-  const savedName = localStorage.getItem(STORAGE_KEY);
+let yesScale = 1;
 
-  if (savedName) {
-    nameOutput.textContent = savedName;
-  } else {
-    nameOutput.textContent = "Qualcuno di speciale";
-    previewNote.textContent =
-      "Torna alla pagina iniziale per inserire il nome.";
-  }
+// Funzione per muovere il bottone No
+function moveButton() {
+  // Dimensioni della card e del bottone
+  const cardRect = card.getBoundingClientRect();
+  const btnRect = noButton.getBoundingClientRect();
+
+  // Calcola un'area sicura all'interno della card (padding di 20px)
+  const maxX = cardRect.width - btnRect.width - 40;
+  const maxY = cardRect.height - btnRect.height - 40;
+
+  // Genera coordinate random
+  const randomX = Math.floor(Math.random() * maxX) + 20;
+  const randomY = Math.floor(Math.random() * maxY) + 20;
+
+  // Applica la posizione assoluta rispetto alla card
+  noButton.style.position = "absolute";
+  noButton.style.left = `${randomX}px`;
+  noButton.style.top = `${randomY}px`;
 }
 
-if (yesButton && noButton && responseMessage) {
-  yesButton.addEventListener("click", () => {
-    responseMessage.textContent =
-      "Sapevo che avresti detto sì! Ti aspetto con un abbraccio. 💖";
-  });
-
-  noButton.addEventListener("click", () => {
-    responseMessage.textContent =
-      "Nessun problema, possiamo renderlo ancora più speciale. ✨";
-  });
+// Funzione per ingrandire il bottone Sì
+function growYesButton() {
+  yesScale += 0.2; // Aumenta del 20% ogni volta
+  yesButton.style.transform = `scale(${yesScale})`;
 }
+
+// Evento click sul Sì
+yesButton.addEventListener("click", () => {
+  responseMessage.innerHTML = "Sapevo che avresti detto sì! <br> Ti amo Aurora! 💖🐷";
+  // Nascondi il bottone No quando dice sì
+  noButton.style.display = "none";
+  // Reset scala
+  yesButton.style.transform = "scale(1)";
+});
+
+// Eventi per Desktop (Mouseover)
+noButton.addEventListener("mouseover", () => {
+  // Su desktop scappa appena ci passi sopra
+  moveButton();
+});
+
+// Eventi per Mobile (Click/Touch)
+// Usiamo 'click' che copre anche il tap su mobile
+noButton.addEventListener("click", (e) => {
+  // Previene il click effettivo (non fa nulla se non scappare)
+  e.preventDefault();
+  
+  moveButton();
+  growYesButton();
+  
+  // Messaggio opzionale divertente
+  const messages = [
+    "Sei sicura?",
+    "Ripensaci...",
+    "Daiii!",
+    "Non puoi dirmi di no!",
+    "Il tasto Sì è proprio lì!",
+    "Ti pregooo 🥺"
+  ];
+  const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+  responseMessage.textContent = randomMsg;
+});

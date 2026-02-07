@@ -1,3 +1,4 @@
+/* Manteniamo gli stili base precedenti e aggiungiamo le logiche per il bottone che scappa */
 *,
 *::before,
 *::after {
@@ -41,20 +42,17 @@ body {
   border-radius: 24px;
   padding: 32px;
   box-shadow: var(--shadow);
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
+  position: relative; /* Fondamentale per il posizionamento assoluto del bottone No */
+  min-height: 400px; /* Diamo spazio al bottone per muoversi */
+  justify-content: center;
 }
 
 .card--center {
   text-align: center;
-}
-
-.card__eyebrow {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--rose-500);
-  font-weight: 600;
 }
 
 .card__title {
@@ -74,48 +72,20 @@ body {
 }
 
 .card__icon {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
+  width: 120px; /* Leggermente più grande per il maialino */
+  height: auto;
+  object-fit: contain;
   margin: 0 auto;
-  border-radius: 18px;
-  box-shadow: 0 8px 18px rgba(255, 111, 145, 0.25);
 }
 
-.form {
-  display: grid;
-  gap: 14px;
-}
-
-.form__label {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.form__input {
-  border: 2px solid var(--pink-200);
-  border-radius: 16px;
-  padding: 14px 16px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.form__input:focus {
-  outline: none;
-  border-color: var(--rose-500);
-}
-
-.form__error {
-  min-height: 1.2em;
-  color: var(--rose-500);
-  font-size: 0.9rem;
-}
-
-.button-row {
+.button-container {
   display: flex;
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 20px;
+  width: 100%;
+  position: relative; /* Contenitore relativo */
 }
 
 .button {
@@ -125,7 +95,8 @@ body {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease; /* Transizione fluida per ingrandimento */
+  z-index: 10;
 }
 
 .button--primary {
@@ -140,22 +111,26 @@ body {
   border: 2px solid var(--rose-500);
 }
 
-.button:hover {
-  transform: translateY(-2px);
+/* Classe per quando il bottone inizia a scappare */
+.button--running {
+  position: absolute;
 }
 
 .response {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   min-height: 1.4em;
   color: var(--rose-500);
+  margin-top: 10px;
 }
 
 .card__footer {
   font-size: 0.9rem;
   color: rgba(61, 58, 69, 0.6);
+  margin-top: auto;
 }
 
+/* Animazione cuori sfondo */
 .hearts {
   position: absolute;
   inset: 0;
@@ -171,65 +146,16 @@ body {
   animation: floatUp 10s linear infinite;
 }
 
-.hearts span:nth-child(1) {
-  left: 8%;
-  animation-delay: 0s;
-}
-
-.hearts span:nth-child(2) {
-  left: 22%;
-  animation-delay: 2s;
-  font-size: 1.2rem;
-}
-
-.hearts span:nth-child(3) {
-  left: 38%;
-  animation-delay: 4s;
-}
-
-.hearts span:nth-child(4) {
-  left: 55%;
-  animation-delay: 1s;
-  font-size: 1.4rem;
-}
-
-.hearts span:nth-child(5) {
-  left: 70%;
-  animation-delay: 3s;
-}
-
-.hearts span:nth-child(6) {
-  left: 82%;
-  animation-delay: 5s;
-  font-size: 1.6rem;
-}
-
-.hearts span:nth-child(7) {
-  left: 92%;
-  animation-delay: 6s;
-}
+.hearts span:nth-child(1) { left: 8%; animation-delay: 0s; }
+.hearts span:nth-child(2) { left: 22%; animation-delay: 2s; font-size: 1.2rem; }
+.hearts span:nth-child(3) { left: 38%; animation-delay: 4s; }
+.hearts span:nth-child(4) { left: 55%; animation-delay: 1s; font-size: 1.4rem; }
+.hearts span:nth-child(5) { left: 70%; animation-delay: 3s; }
+.hearts span:nth-child(6) { left: 82%; animation-delay: 5s; font-size: 1.6rem; }
+.hearts span:nth-child(7) { left: 92%; animation-delay: 6s; }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(-110vh) scale(1.1);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 560px) {
-  .card {
-    padding: 24px;
-  }
-
-  .button {
-    width: 100%;
-    justify-self: stretch;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.7; }
+  100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
 }

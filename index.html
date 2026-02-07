@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Per chi è questo?</title>
+    <title>Per Aurora 💖</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,27 +24,32 @@
     </div>
 
     <main class="page">
-      <section class="card" aria-labelledby="page-title">
-        <p class="card__eyebrow">Mini sito romantico</p>
-        <h1 id="page-title" class="card__title">Per chi è questo?</h1>
+      <section class="card card--center">
+        <img
+          src="img/pig-heart.png"
+          alt="Maialino con palloncino a cuore"
+          class="card__icon"
+        />
+        <h1 class="card__title card__title--large">
+          Aurora, vuoi essere la mia Valentina?
+        </h1>
         <p class="card__subtitle">
-          Inserisci il nome della persona speciale per creare il bigliettino.
+          Scegli con attenzione... (anche se non hai molta scelta 😜)
         </p>
 
-        <form id="name-form" class="form" novalidate>
-          <label class="form__label" for="name-input">Nome</label>
-          <input
-            id="name-input"
-            name="name"
-            class="form__input"
-            type="text"
-            placeholder="Inserisci il suo nome"
-            autocomplete="off"
-            required
-          />
-          <button class="button button--primary" type="submit">Anteprima</button>
-          <p id="form-error" class="form__error" role="alert" aria-live="polite"></p>
-        </form>
+        <div class="button-container">
+          <button id="yes-button" class="button button--primary" type="button">
+            Sì
+          </button>
+          <button id="no-button" class="button button--ghost" type="button">
+            No
+          </button>
+        </div>
+
+        <p id="response-message" class="response" aria-live="polite"></p>
+        <p class="card__footer">
+          Solo per te. 💌
+        </p>
       </section>
     </main>
 
